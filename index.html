@@ -1,0 +1,511 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/black.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement( 'link' );
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName( 'head' )[0].appendChild( link );
+	</script>
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+		<section class="title">
+			<h1>Decoding the database:</h1>
+			<h2>A critical analysis of open source GIS tools for humanistic mapping</h2>
+			<p><strong>Alison Link</strong> | Academic Technologist, University of Minnesota - College of Liberal Arts</p>
+		</section>
+
+<!-- INTRO -->
+		<section class="introduction">
+
+			<section>
+				<h2>Mapping and Human Memory</h2>
+
+				<aside class="notes">Moonwalking with Einstein (Joshua Foer)</aside>
+			</section>
+
+			<section>
+				<p>"...for example, if we wish to recall a horse, a lion, or an eagle, we must place its image in a definite background."</p>
+				<p>- <em>Rhetorica ad Herennium</em>, 3.16 - 24; trans. Harry Caplan (Loeb, 1954)</p>
+
+				<aside class="notes">
+					<p>from an unknown/anonymous author, but formerly attributed to Cicero</p>
+				</aside>
+			</section>
+
+			<section>
+				<p>"...the backgrounds are very much like wax tablets or papyrus, the images like letters, the arrangement and disposition of images like the script, and the delivery is like reading."</p>
+				<img data-src="images/intro01.png">
+			</section>
+
+			<section>
+				<p>"And these backgrounds ought to be of moderate size and medium extent, for when excessively large they render the images vague, and when too small often seem incapable of receiving an arrangement of images."</p>
+				<img data-src="images/intro02.png">
+			</section>
+
+<!--
+			<section>
+				<p>"On the subject of backgrounds enough has been said; let me now turn to the theory of images. [... L]ikenesses are bound to be of two kinds, one of subject-matter the other of words.  [There are] <strong>images that present a general view of the matter</strong> with which we are dealing [and others where] <strong>the record of each single noun or appellative is kept by an image</strong>."</p>
+
+				<img data-src="images/intro03.png">
+
+				<aside class="notes">I read this as: images can be used to enhance memory in two ways--PROCEDURAL memory (more wholistic, "knowing how") & DECLARATIVE memory ("knowing what").
+		    </aside>
+			</section>
+-->
+
+			<section>
+				<p>"Often in fact when we declare that some one form resembles another, we fail to receive universal assent, because <strong>things seem different to different persons</strong>.  The same is true with respect to images: one that is well-defined to us appears relatively inconspicuous to others.  Everybody, therefore, should in equipping himself with images suit his own convenience."</p>
+
+				<aside class="notes">If we accept the metaphor I'm try to draw between the method of loci & the act of GIS mapping, this quotation represents a key revelation--the "critical GIS" revelation.  Mapping is inherently and necessarily a subjective act.  To serve humans--let alone humanistic researchers--"objective" mapping is not enough, and indeed not even possible.
+		    </aside>
+			</section>
+
+		</section>
+
+		<section class="project_framing">
+
+			<section>
+				<h2>Where to start?</h2>
+				<img data-src="images/techno_positionality.png" style="width: 80%;">
+			</section>
+
+			<section>
+				<h2>Techno-Positionality</h2>
+				<p>"It is a way of relating to technology that is neither entirely inside nor outside, relevant nor irrelevant, constructive nor destructive...  The 'conflicted insider' techno-positionality is steeped in the technicalities of GIS, and yet seeks resistive practices, new collusions, and irreconcilables to challenge GIS at the level of code."</p>
+				<p>- Wilson, M. (2009). "Towards a Genealogy of Qualitative GIS"</p>
+
+				<aside class="notes">
+					<p>Preferred, negotiated, oppositional reading - Stuart Hall? - this is NEGOTIATED reading</p>
+					<p>Project was part of a GEODATABASE DESIGN CLASS--another reason to assume a techno-positionality ;-)</p>
+			  </aside>
+			</section>
+
+			<section>
+				<h2>The Process</h2>
+				<ol>
+					<li class="fragment fade-up">Conduct a literature review and interviews with individuals engaged in humanities work.  Identify some of the current pain points in the humanities vis-&agrave;-vis existing GIS tools.</li>
+
+					<li class="fragment fade-up">Identify three points of critique that seem relatively tractable to explore with existing technical tools.</li>
+
+					<li class="fragment fade-up">For each critique, craft one or two examples illustrating ways to stretch existing technologies towards ends that may prove more useful/interesting to humanities scholars.</li>
+				<ol>
+			</section>
+
+			<section>
+				<h2>What this is not...</h2>
+				<ul>
+					<li class="fragment fade-up">A comprehensive critique of all humanistic shortcomings in GIS</li>
+					<li class="fragment fade-up">Technologically elegant, optimized computational solutions to humanities-related questions in GIS</li>
+				</ul>
+
+				<aside class="notes">This is the "holy grail" for no one!  But some "proof of concept" hacks for everyone!</aside>
+			</section>
+
+			<section>
+				<h2>What this is...</h2>
+				<img data-src="images/curio_cabinet_intro.png">
+			</section>
+
+			<section>
+				<h2>The Technologies</h2>
+				<ul>
+					<li><strong>PostgreSQL + PostGIS</strong> - for spatial data management</li>
+					<li><strong>QGIS</strong> -  for spatial visualization</li>
+				</ul>
+			</section>
+
+		</section>
+
+
+<!-- DISTANCE -->
+		<section class="distance">
+			<section>
+				<h2>Critique #1: Humanities GIS needs more nuanced concepts of “distance” than GIS currently provides</h2>
+			</section>
+
+			<section>
+				<p>"When you're in a new place, you're bombarded with all of those little nuances every single day. They add up to feeling like you are totally out of place. You look out of place. Your mannerisms, your clothes, your accent, you ability to pay the bus driver properly...all mark you as out of place to everyone else."</p>
+				<p>- E. Venditto (History)</p>
+			</section>
+
+			<section>
+				<p>"I am imagining in my head a Venn diagram, but it's a muddled space. It's strange [...] you can be somewhere, but you can't actually fully inhabit self in that place. It's a strange thing to try to tease out."</p>
+				<p>- M. Brito (Philosophy)</p>
+			</section>
+
+			<section>
+				<h3>Example 1.1: Embedded distance calculation with U.S. Census data</h3>
+				<pre><code data-trim>
+CREATE OR REPLACE FUNCTION zScore(observed_val numeric,
+	median numeric, margin_of_error numeric)
+RETURNS numeric AS $$
+	BEGIN
+	RETURN (observed_val - median) / (margin_of_error / 1.645);
+	END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION zScoreProportion(observed_val numeric,
+	observed_cases_in_pop numeric, total_pop numeric)
+RETURNS numeric AS $$
+	DECLARE
+		pop_proportion numeric := observed_cases_in_pop /
+		total_pop;
+	BEGIN
+	RETURN (observed_val - (pop_proportion)) /
+	sqrt(pop_proportion * (1 - pop_proportion));
+	END;
+$$ LANGUAGE plpgsql;
+				</pre></code>
+
+				<aside class="notes"><p>A quick note about the functions: they both take information on an individual of interest (we'll use a hypothetical example), and set it against a backdrop of census data (provided, for example, through American FactFinder)...<p>
+					<ul>
+						<li>The first one--<strong>zScore</strong>--works for point value estimates (for example, average income, age, etc.).  It takes three values: 1) the value for the individual you're interested in 2) the median estimate for the census area you're looking at, 2) the margin of error provided by the census</li>
+						<li>The second one--<strong>zScore proportion</strong>--works for count value estimates.  It takes: 1) the observed value for the individual we're interested in(a dummy of "0" or "1"), 2) the number of observed cases for the census area you're looking at, 3) the total population in the census area you're looking at</li>
+					</ul>
+					<p>Caveat: I'm not a statistician, so any suggestions on how to improve this methodology would be more than welcome!</p>
+				</aside>
+			</section>
+
+			<section>
+				<img data-src="images/distance_embedded_distances_viz.png">
+
+				<aside class="notes">
+					<p>This depicts what I'm calling the "embedded distance" of a foreign-born 30-year-old making an income at the MN poverty level for a family of four</p>
+					<p>Backdrop: a choropleth depicting the percent of foreign born residents in each census tract</p>
+					<p>The histograms represent the level of demographic "distance" the individual has from others in the neighborhood, operationalized as a z-score. The red bar is the cumulative z-score, so places where the red bar is largest is where we would expect our individual might feel most "out of place".</p>
+				</aside>
+			</section>
+		</section>
+
+<!-- TIME -->
+		<section class="time">
+			<section>
+				<h2>Critique #2: Humanities GIS needs a more robust approach to incorporating time into spatial analyses</h2>
+			</section>
+
+			<section>
+				<p>"When you're dealing with historical information, it's often not specific. [...] And then we want to track change over time, and GIS is really clunky for dates. [...]  We're always kind of up against that--that anything you put up on the web, and particularly through a GIS program, becomes "data". And "data" is assumed to be accurate.  And historical information may not be "accurate" in that same sort of way."</p>
+				<p>- J. Kilde (History)</p>
+			</section>
+
+			<section>
+				<h3>Example 2.1: Time-space diffs</h3>
+				<pre><code data-trim>
+WITH left_join AS (
+	SELECT person1.time AS time1, person1.wkb_geometry AS geom1,
+		person2.time AS time2, person2.wkb_geometry AS geom2
+	FROM person_1_tracks_1 person1
+	LEFT JOIN person_2_tracks_1 person2 ON person2.time
+	BETWEEN person1.time AND person1.time + interval '1 min';
+),
+temporal_overlaps AS (
+	SELECT DISTINCT *
+	FROM left_join
+	WHERE geom2 IS NOT NULL
+)
+SELECT time1, time2, ST_MakeLine(geom1, geom2)
+INTO time_space_diffs
+FROM temporal_overlaps;
+				</code></pre>
+
+				<aside class="notes">two entities overlapping in space-time, with an emphasis on spatial distance</aside>
+			</section>
+
+			<section>
+				<img data-src="images/time_space_diffs.png">
+			</section>
+
+			<section>
+				<h3>Example 2.2: Space-time diffs</h3>
+				<pre><code data-trim>
+WITH left_join AS (
+	SELECT person1.time AS time1, person1.wkb_geometry AS geom1,
+		person2.time AS time2, person2.wkb_geometry AS geom2
+	FROM person_1_tracks_2 person1
+	LEFT JOIN person_2_tracks_2 person2 ON
+		ST_Within(person1.wkb_geometry,
+		ST_Buffer(person2.wkb_geometry, 5))
+),
+spatial_overlaps AS (
+	SELECT *
+	FROM left_join
+	WHERE geom2 IS NOT NULL
+)
+SELECT time1, time2, abs(extract('epoch' from (time1 - time2)) / 60)
+AS timediff_in_mins, ST_Collect(geom1, geom2)
+INTO space_time_diffs
+FROM spatial_overlaps;
+				</code></pre>
+
+				<aside class="notes">two entities overlapping in space-time, with an emphasis on spatial proximity</aside>
+			</section>
+
+			<section>
+				<img data-src="images/space_time_diffs.png">
+			</section>
+
+<!--
+			<section>
+				<h3>Example 2.3: Clustering via DBSCAN</h3>
+
+				<p>In R...</p>
+				<pre><code data-trim>
+library("dbscan")
+DBSCAN <- dbscan(lawrence_ks_osm_gpx_points[,c("lat", "long")],eps = 20, minPts = 10)
+				</code></pre>
+
+				<p>In PostgreSQL...</p>
+				<pre><code data-trim>
+# Find centroids of each cluster, along with "diversity" & "timespread"
+SELECT cp.cluster, COUNT(DISTINCT track_fid) AS diversity,
+	max(time) - min(time) AS timespread,
+	ST_Centroid(ST_Collect(geom))
+INTO lawrence_ks_osm_cluster_centroids
+FROM lawrence_ks_osm_gpx_clusters cp
+GROUP BY cluster;
+				</code></pre>
+
+				<aside class="notes">
+					<p>More than two things overlapping in space (this doesn't deal with time); for now I hacked this together by pulling the data into R and running the clustering algorithm there, but DBSCAN is due to be implemented in PostGIS 2.3.0.</p>
+				</aside>
+			</section>
+
+			<section>
+				<img data-src="/images/lawrenceKS_DBSCAN.png">
+
+				<aside class="notes">
+					<p>Data quality issues:<p>
+					<ul>
+						<li>Auto-clustering of gps track points (which is why I used "diversity values" to screen out clusters within a single track)</li>
+						<li>This is volunteered geographic information, so is likely from a small subset of self-selecting people--but is a good proof of concept for a more controlled research design (For example: ask people to track their movements with a GPS tracking app over the course of a day and analyze the spaces they occupy together)</li>
+					</ul>
+				</aside>
+			</section>
+-->
+
+		</section>
+
+<!-- 3D -->
+		<section class="3d">
+			<section>
+				<h2>Critique #3: Humanities GIS needs better ways to convey and analyze embodied, "felt" space</h2>
+			</section>
+
+			<section>
+				<p>"I'm very attuned to this in the various classrooms that I find myself in, and I've thought a lot about it. [...] I think we're animals--I mean, I think that's a lot of what it is.  It's like: I'm an animal, they're an animal, how are the animals doing?"</p>
+				<p>- L. Buturian (Literature)</p>
+			</section>
+
+			<section>
+				<h3>Example 3.1: Hausdorff distance for comparing spaces</h3>
+
+				<pre><code data-trim>
+WITH target_polygon AS (
+	SELECT gid, name, type, the_geom, ST_Centroid(the_geom)
+	AS centroid
+	FROM beijing_china_osm_landusages
+	WHERE gid = 175
+),
+target_polygon_at_origin AS (
+	SELECT *, ST_Translate(the_geom,
+	-ST_X(centroid), -ST_Y(centroid)) AS geom_trans
+	FROM target_polygon
+),
+test_polygons AS (
+	SELECT gid, name, type, the_geom, ST_Centroid(the_geom)
+	AS centroid
+	FROM ankara_turkey_osm_landusages
+	WHERE type LIKE 'park'
+),
+test_polygons_at_origin AS (
+	SELECT test.gid, test.name, test.type,
+		ST_Translate(test.the_geom,
+		-ST_X(test.centroid), -ST_Y(test.centroid))
+		AS geom_trans
+	FROM target_polygon target, test_polygons test
+)
+SELECT test.gid, test.name, test.type,
+	ST_HausdorffDistance(target.geom_trans, test.geom_trans)
+	AS hausdorff_distance
+FROM target_polygon_at_origin target,
+	test_polygons_at_origin test
+ORDER BY hausdorff_distance ASC;
+				</code></pre>
+
+				<aside class="notes">
+					<p>What this does, in a nutshell...</p>
+					<ol>
+						<li>Take a target polygon--in this case, a park we like in Beijing</li>
+						<li>Translate the polygon to the origin (0, 0) to make it easier to compare</li>
+						<li>Take the table of parks in Ankara, and center those on the origin to use as test polygons</li>
+						<li>For each park in the Ankara table (a total of 1,616 parks in this dataset), compute its Hausdorff distance vis-a-vis our target park in Beijing</li>
+						<li>Order the table in ascending order to get the best matches, or descending order to get the worst matches</li>
+					</ol>
+				</aside>
+			</section>
+
+			<section>
+				<img data-src="images/hausdorff_beijing_target.png">
+			</section>
+
+			<section>
+				<img data-src="images/hausdorff_ankara_matches.png">
+			</section>
+
+			<section>
+				<img data-src="images/hausdorff_beijing_target.png">
+			</section>
+
+			<section>
+				<img data-src="images/hausdorff_ankara_mismatches.png">
+			</section>
+
+			<section>
+				<h3>Example 3.2: 2.5D visualization with Open Street Map data</h3>
+
+				<pre><code data-trim>
+CREATE EXTENSION hstore;
+				</code></pre>
+
+				<pre><code data-trim>
+CREATE OR REPLACE FUNCTION parse_osm_heights(tags_col character,
+	floor_height numeric, default_height numeric)
+RETURNS numeric AS $$
+	DECLARE
+		parsed_tags hstore DEFAULT NULL;
+	BEGIN
+		parsed_tags := ($1)::hstore;
+		IF exist(parsed_tags, 'building:height') THEN
+			RETURN (parsed_tags -> 'building:height')::numeric;
+		ELSEIF exist(parsed_tags, 'building:levels') THEN
+			RETURN (parsed_tags -> 'building:levels')::numeric * $2;
+		ELSE
+			RETURN $3;
+		END IF;
+	EXCEPTION
+		WHEN plpgsql_error THEN RETURN $3;
+		WHEN invalid_text_representation THEN RETURN $3;
+		WHEN others THEN
+			RAISE NOTICE 'not a valid hstore';
+			RETURN $3;
+	END;
+$$ LANGUAGE plpgsql;
+				</code></pre>
+
+				<aside class="notes">
+					<p>This function in a nutshell...</p>
+					<ol>
+						<li>Takes three arguments: 1) a data column that contains OSM tags, 2) the height of a standard floor (in meters) for the buildings in the dataset, 3) a default building height to use if no height information is present</li>
+						<li>IF statement is the "meat" of it: if the building's tags contain a "height" tag, then we use that for the height; if there's an indicator of the number of levels (floors), then we use that and multiply it by our second argument; if there's no height or levels information, then fall back to the default height from the third argument</li>
+						<li>We can use this function on a dataset to add an additional column that contains heights parsed and calculated in this way based on the existing tag information in any OSM dataset</li>
+						<li>Then, in QGIS, this parsed height column comes in handy to generate a 2.5D visualization...</li>
+					</ol>
+				</aside>
+			</section>
+
+			<section>
+				<iframe class="stretch" data-src="images/kansas_city_qgis2threejs.html"></iframe>
+			</section>
+
+		</section>
+
+
+<!-- CONCLUSION & REFERENCES -->
+		<section class="conclusion">
+			<section>
+				<h2>Questions</h2>
+				<p>"Questions drive humanities scholarship, not hypotheses..."</p>
+				<p>- Bodenhamer, D. J. (2010). <em>The Spatial Humanities: GIS and the Future of Humanities Scholarship</em>
+
+				<aside class="notes">
+					<p>My goal here today was to stimulate our ability to ask humanistic questions with GIS technologies--and in so doing, to also ask questions <em>of</em> GIS technologies.</p>
+					<p>So let's end in this questioning spirit: given what you've seen here, what's one question you are now curious to ask using any of the GIS technologies I mentioned here...or one
+				</aside>
+			</section>
+
+			<section>
+				<h2>References</h2>
+				<ul>
+					<li><em>Rhetorica ad Herennium</em>. (Harry Caplan, Trans., 1954). Loeb Classical Library. Retrieved from: <a href="http://www.laits.utexas.edu/memoria/Ad_Herennium_Passages.html"> http://www.laits.utexas.edu/memoria/Ad_Herennium_Passages.html</a></li>
+					<li>Wilson, M. (2009). "Towards a Genealogy of Qualitative GIS". <em>Qualitative GIS</em>. London: SAGE Publications Ltd.</li>
+					<li>Corti, et al. (2014). <em>PostGIS Cookbook</em>. Birmingham, UK: Packt Publishing.</li>
+					<li>Bodenhamer, D. J., Corrigan, J. & Harris T. M. (Eds.). (2010). <em>The Spatial Humanities: GIS and the Future of Humanities Scholarship</em>. Bloomington, IN: Indiana University Press.</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>References - Data & Maps</h3>
+				<ul>
+					<li>"City Maps" (2016). <em>City of Lawrence, Kansas</em>. Retrieved from: <a href="https://www.lawrenceks.org/city_maps#gis-data">https://www.lawrenceks.org/city_maps#gis-data</a></li>
+					<li>Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.
+					<li>"Metro Extracts". <em>Mapzen</em>. Retrieved from: <a href="https://mapzen.com/data/metro-extracts/"> https://mapzen.com/data/metro-extracts/</a></li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>References - Software</h3>
+				<ul>
+					<li>PostgreSQL (Version 9.5.2). [Computer software]. Retrieved from: <a href="https://www.postgresql.org">https://www.postgresql.org</a></li>
+					<li>PostGIS (Version 2.2.2). [Computer software]. Retrieved from: <a href="http://postgis.net">http://postgis.net</a></li>
+					<li>QGIS (Version 2.14.0-Essen). [Computer software]. Retrieved from: <a href="http://qgis.org/en/site/">http://qgis.org/en/site/</a></li>
+					<li>FitnessKeeper, Inc. (2016). Runkeeper - GPS Track Run Walk for Android (Version 7.1.0). [Mobile application software]. Retrieved from: <a href="https://play.google.com/store/apps/details?id=com.fitnesskeeper.runkeeper.pro">https://play.google.com/store/apps/details?id=com.fitnesskeeper.runkeeper.pro</a></li>
+					<li>ST_HausdorffDistance. (2016). "8.9 Spatial Relationships and Measurements". <em>PostGIS Documentation</em>. Retrieved from: <a href="http://postgis.net/docs/ST_HausdorffDistance.html">http://postgis.net/docs/ST_HausdorffDistance.html</a></li>
+					<li>Akagi, M. (2016). Qgis2threejs plugin (Version 1.4.2). [Computer software]. Retrieved from: <a href="https://plugins.qgis.org/plugins/Qgis2threejs/">https://plugins.qgis.org/plugins/Qgis2threejs/</a></li>
+				</ul>
+			</section>
+
+<!--
+			<section>
+				<h2>References - Extra</h2>
+				<ul>
+					<li>JOSM - Open Street Map editor. [Computer software]. Retrieved from: <a href="https://josm.openstreetmap.de">https://josm.openstreetmap.de</a></li>
+					<li>ST_ClusterDBSCAN. (2016). "8.9 Spatial Relationships and Measurements". <em>PostGIS Documentation</em>. Retrieved from: <a href="http://postgis.net/docs/manual-dev/ST_ClusterDBSCAN.html">http://postgis.net/docs/manual-dev/ST_ClusterDBSCAN.html</a></li>
+					<li>CREATE FUNCTION. (2016). <em>PostgreSQL 9.5.4 Documentation</em>. Retrieved from: <a href="https://www.postgresql.org/docs/current/static/sql-createfunction.html">https://www.postgresql.org/docs/current/static/sql-createfunction.html</a></li>
+				</ul>
+			</section>
+-->
+
+		</section>
+
+		</div>
+	</div>
+
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+
+	<script>
+		// More info https://github.com/hakimel/reveal.js#configuration
+		Reveal.initialize({
+			history: true,
+
+			width: 1440,
+    	height: 900,
+
+			// More info https://github.com/hakimel/reveal.js#dependencies
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js' },
+				{ src: 'plugin/markdown/markdown.js' },
+				{ src: 'plugin/notes/notes.js', async: true },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+</body>
+</html>
