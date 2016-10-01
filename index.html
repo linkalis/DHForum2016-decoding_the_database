@@ -225,7 +225,7 @@ INTO time_space_diffs
 FROM temporal_overlaps;
 				</code></pre>
 
-				<aside class="notes">two entities overlapping in space-time, with an emphasis on spatial distance</aside>
+				<aside class="notes">HAGERSTRAND!!!; two entities overlapping in space-time, with an emphasis on spatial distance</aside>
 			</section>
 
 			<section>
@@ -283,7 +283,7 @@ GROUP BY cluster;
 				</code></pre>
 
 				<aside class="notes">
-					<p>More than two things overlapping in space (this doesn't deal with time); for now I hacked this together by pulling the data into R and running the clustering algorithm there, but DBSCAN is due to be implemented in PostGIS 2.3.0.</p>
+					<p>More than two things overlapping in space (this doesn't deal with time).  For now I hacked this together by pulling the data into R and running the clustering algorithm there, but DBSCAN was just recently implemented in PostGIS 2.3.0 (it just isn't available in Amazon RDS yet).</p>
 				</aside>
 			</section>
 
@@ -291,6 +291,7 @@ GROUP BY cluster;
 				<img data-src="/images/lawrenceKS_DBSCAN.png">
 
 				<aside class="notes">
+					<p>This is volunteer geographic information (GPS tracks) from Open Street Map users tracking their movements around Lawrence.</p>
 					<p>Data quality issues:<p>
 					<ul>
 						<li>Auto-clustering of gps track points (which is why I used "diversity values" to screen out clusters within a single track)</li>
@@ -441,31 +442,44 @@ $$ LANGUAGE plpgsql;
 			</section>
 
 			<section>
+				<h2>References: Work of Interest from Interviewees</h2>
+				<ul>
+					<li><a href="http://cla.umn.edu/ihrc">Immigration History Research Center.</a> University of Minnesota.</li>
+					<li>Kilde, J. H. (2015, 5 January). "Houses of Worship in the Twin Cities: Using Spatial Mapping to Gauge Interaction among Immigrant Religious Groups, 1849-1924". Paper presented at the American Society for Church History, New York City, NY.</li>
+					<li><a href="https://www.housesofworship.umn.edu/">Houses of Worship.</a> University of Minnesota.
+					<li>Buturian, L. (2015). <em>The Changing Story: Digital Stories that Participate in Transforming Teaching & Learning</em>. Retrieved from: <a href="http://www.cehd.umn.edu/the-changing-story/">http://www.cehd.umn.edu/the-changing-story/</a></li>
+				</ul>
+			</section>
+
+			<section>
 				<h2>References</h2>
 				<ul>
 					<li><em>Rhetorica ad Herennium</em>. (Harry Caplan, Trans., 1954). Loeb Classical Library. Retrieved from: <a href="http://www.laits.utexas.edu/memoria/Ad_Herennium_Passages.html"> http://www.laits.utexas.edu/memoria/Ad_Herennium_Passages.html</a></li>
 					<li>Wilson, M. (2009). "Towards a Genealogy of Qualitative GIS". <em>Qualitative GIS</em>. London: SAGE Publications Ltd.</li>
+					<li>Hägerstrand, T. (1970). "What About People in Regional Science?". <em>Papers of the Regional Science Association</em>, Vol. XXIV.</li>
 					<li>Corti, et al. (2014). <em>PostGIS Cookbook</em>. Birmingham, UK: Packt Publishing.</li>
 					<li>Bodenhamer, D. J., Corrigan, J. & Harris T. M. (Eds.). (2010). <em>The Spatial Humanities: GIS and the Future of Humanities Scholarship</em>. Bloomington, IN: Indiana University Press.</li>
 				</ul>
 			</section>
 
 			<section>
-				<h3>References - Data & Maps</h3>
+				<h3>References: Data & Maps</h3>
 				<ul>
 					<li>"City Maps" (2016). <em>City of Lawrence, Kansas</em>. Retrieved from: <a href="https://www.lawrenceks.org/city_maps#gis-data">https://www.lawrenceks.org/city_maps#gis-data</a></li>
+					<li>U.S. Census Bureau. American Community Survey, 2014 American Community Survey 5-Year Estimates, Table S0101, S1902, B05012. Using <em><a href="http://factfinder2.census.gov">American FactFinder</a></em>.
 					<li>Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.
 					<li>"Metro Extracts". <em>Mapzen</em>. Retrieved from: <a href="https://mapzen.com/data/metro-extracts/"> https://mapzen.com/data/metro-extracts/</a></li>
 				</ul>
 			</section>
 
 			<section>
-				<h3>References - Software</h3>
+				<h3>References: Software</h3>
 				<ul>
 					<li>PostgreSQL (Version 9.5.2). [Computer software]. Retrieved from: <a href="https://www.postgresql.org">https://www.postgresql.org</a></li>
 					<li>PostGIS (Version 2.2.2). [Computer software]. Retrieved from: <a href="http://postgis.net">http://postgis.net</a></li>
 					<li>QGIS (Version 2.14.0-Essen). [Computer software]. Retrieved from: <a href="http://qgis.org/en/site/">http://qgis.org/en/site/</a></li>
 					<li>FitnessKeeper, Inc. (2016). Runkeeper - GPS Track Run Walk for Android (Version 7.1.0). [Mobile application software]. Retrieved from: <a href="https://play.google.com/store/apps/details?id=com.fitnesskeeper.runkeeper.pro">https://play.google.com/store/apps/details?id=com.fitnesskeeper.runkeeper.pro</a></li>
+					<li>ST_ClusterDBSCAN. (2016). "8.9 Spatial Relationships and Measurements". <em>PostGIS Documentation</em>. Retrieved from: <a href="http://postgis.net/docs/manual-dev/ST_ClusterDBSCAN.html">http://postgis.net/docs/manual-dev/ST_ClusterDBSCAN.html</a></li>
 					<li>ST_HausdorffDistance. (2016). "8.9 Spatial Relationships and Measurements". <em>PostGIS Documentation</em>. Retrieved from: <a href="http://postgis.net/docs/ST_HausdorffDistance.html">http://postgis.net/docs/ST_HausdorffDistance.html</a></li>
 					<li>Akagi, M. (2016). Qgis2threejs plugin (Version 1.4.2). [Computer software]. Retrieved from: <a href="https://plugins.qgis.org/plugins/Qgis2threejs/">https://plugins.qgis.org/plugins/Qgis2threejs/</a></li>
 				</ul>
@@ -476,7 +490,6 @@ $$ LANGUAGE plpgsql;
 				<h2>References - Extra</h2>
 				<ul>
 					<li>JOSM - Open Street Map editor. [Computer software]. Retrieved from: <a href="https://josm.openstreetmap.de">https://josm.openstreetmap.de</a></li>
-					<li>ST_ClusterDBSCAN. (2016). "8.9 Spatial Relationships and Measurements". <em>PostGIS Documentation</em>. Retrieved from: <a href="http://postgis.net/docs/manual-dev/ST_ClusterDBSCAN.html">http://postgis.net/docs/manual-dev/ST_ClusterDBSCAN.html</a></li>
 					<li>CREATE FUNCTION. (2016). <em>PostgreSQL 9.5.4 Documentation</em>. Retrieved from: <a href="https://www.postgresql.org/docs/current/static/sql-createfunction.html">https://www.postgresql.org/docs/current/static/sql-createfunction.html</a></li>
 				</ul>
 			</section>
